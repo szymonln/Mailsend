@@ -1,0 +1,36 @@
+<!-- templates/registration/login.html -->
+{% load static %}
+
+<html>
+<head>
+    <title>Korespondencja Seryjna</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="bg-dark">
+    <div class="container-fluid bg-dark text-align-left rounded-none" style="border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <h3 class="h3 font-weight-light text-white"><i style="margin-left:10px; margin-top:20px; margin-bottom:20px; margin-right:10px" class="text-white fas fa-paper-plane"></i> Korespondencja seryjna</h3>
+    </div>
+    <div class="container-fluid card rounded-lg" style="max-width:400px; display:table; width:100%; margin-top:5%">
+        <div style="display:table-cell;vertical-align:middle" class="bg-white">
+            <div class="text-center">
+                <i style="margin-top:20px" class="text-muted fas fa-paper-plane fa-6x"></i>
+                <h1 class="h3 mb-3 font-weight-light text-muted" style="margin-top:20px">Korespondencja seryjna</h1>
+            </div>
+            <div class="text-center" style="">
+            <form method="post" class="form-signin rounded login" style="">
+                {% csrf_token %}
+                <div style="margin:30px"></div>
+                <input id="id_username" name="username" autofocus required type="text" class="form-control bg-light" placeholder="Nazwa użytkownika" style="margin-bottom:10px">
+                <input id="id_password" name="password" type="password" required class="form-control bg-light" placeholder="Hasło" style="">
+                <button type="submit" class="btn btn-block font-weight-light btn-secondary " style="margin-top:20px;">Zaloguj się</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

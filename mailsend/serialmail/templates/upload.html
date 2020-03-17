@@ -1,0 +1,59 @@
+<!-- templates/registration/login.html -->
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+<html>
+<head>
+    <title>Korespondencja Seryjna</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body class="bg-dark">
+    <div class="container-fluid bg-dark text-align-left rounded-none" style="border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <h3 class="h3 font-weight-light text-white"><i style="margin-left:10px; margin-top:20px; margin-bottom:20px; margin-right:10px" class="text-white fas fa-paper-plane"></i> Korespondencja seryjna</h3>
+    </div>
+    <div class="container-fluid card rounded-lg" style="max-width:700px; display:table; width:100%; margin-top:5%">
+        <div style="display:table-cell;vertical-align:middle" class="bg-white">
+            <div class="text-center">
+                <h1 class="h3 mb-3 font-weight-light text-muted" style="margin-top:20px"><i class="fas fa-file-excel" style="margin-right:20px"></i>Dodaj plik</h1>
+                <h5 class="h5 mb-3 font-weight-light text-muted" style="margin-top:20px">Dodaj plik Excel i naciśnij "Prześlij"</h5>
+                <hr>
+            </div>
+            <div class="text-center" style="margin-top:20px">
+                <form action="upload" method="post" class="text-center" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div class="form-group">
+                        <input type="file" style="margin:auto" name="file" class="form-control-file" id="exampleFormControlFile1">
+                      </div>
+                <br>
+                <input type="submit" class="btn btn-block btn-secondary" style="">
+            </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-dark" style="max-width:700px; display:table; width:100%; margin-top:25px">
+        {%if email_updated %}
+                <div class="alert alert-success" style="margin-top:20px; margin:auto; margin-bottom:20px">Poprawnie zaktualizowano dane</div>
+        {% endif %}
+        <a class="btn btn-primary btn-block" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1">Zaktualizuj dane serwera pocztowego</a>
+
+        <div class="collapse multi-collapse" id="multiCollapseExample1">
+            <div class="container-fluid card bg-white " style="max-width:700px; display:table; width:100%; margin-top:15px">
+                <h5 class="h5 mb-3 font-weight-normal text-dark" style="margin-top:20px">Dane serwera pocztowego</h5>
+                <h6 class="h6 mb-3 font-weight-light text-dark " style="">Nie musisz podawac hasła jeżeli nie zmieniasz danych</h6>
+                <form action="upload" method="post" class="form-horizontal">
+                    {% csrf_token %}
+                    {{ email_form | crispy}}
+                    <input type="submit" class="btn btn-block btn-primary" style="margin-top:20px;" value="Zapisz">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

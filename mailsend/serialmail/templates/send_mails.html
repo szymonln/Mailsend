@@ -1,0 +1,98 @@
+<!-- templates/registration/login.html -->
+{% load static %}
+
+<html>
+<head>
+    <title>Korespondencja Seryjna</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    $(function(){
+       $(".key").click(function() {
+           $("#mail_content").removeAttr("placeholder")
+           $("#mail_content").val($("#mail_content").val() + "{" + this.innerText + "}")
+       })
+    })
+    </script>
+</head>
+<body class="bg-dark font-weight-light">
+    <div class="container-fluid bg-dark text-align-left rounded-none" style="border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <h3 class="h3 font-weight-light text-white"><i style="margin-left:10px; margin-top:20px; margin-bottom:20px; margin-right:10px" class="text-white fas fa-paper-plane"></i> Korespondencja seryjna</h3>
+    </div>
+    <div class="container-fluid bg-dark text-center rounded-none" style="margin-top:10px; margin-bottom:20px; border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <h3 class="h4 font-weight-light text-white"> Przygotowano dane na podstawie pliku</h3>
+    </div>
+
+    {% if emails_ready %}
+    <div class="container-fluid bg-dark text-center rounded-none row" style="border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <div class="alert alert-info" style="width:55%; margin:auto; margin-bottom:20px">Poprawnie wyslano {{emails_count}} wiadomości</div>
+    </div>
+    <div class="container-fluid bg-dark text-center rounded-none row" style="border-radius:0px; -webkit-border-radius:0px; -moz-border-radius:0px;">
+        <form action="/upload" method="get" style="margin:auto; width:55%">
+                    <button type="submit" class="btn btn-block btn-info">Powrót</button>
+        </form>
+    </div>
+    {%else%}
+
+    <div class="container-fluid card rounded-lg" style="max-width:50%; display:table">
+        <h4 class="h4 text-black font-weight-light" style="margin-top:15px">Wprowadź treść wiadomości</h4>
+        <h6 class="h6 text-muted font-weight-light">Kliknij na poniższe klucze aby dodać je do wiadomości</h6>
+        <form method="post">
+            {% csrf_token %}
+                <div class="alert bg-secondary text-center" style="margin:auto;">
+                {% for key in keys %}
+                    <h7 style="padding-left:10px; padding-right:10px; padding-top:5px; padding-bottom:5px; margin:5px" class="bg-white rounded-lg text-muted provider key">{{key}}</h7>
+                {%endfor%}
+                </div>
+        <input id="title" name="title" class="form-control" type="text" placeholder="Tytuł wiadomości" style="margin-top:20px">
+          <div class="form-group" style="margin-top:20px">
+            <textarea name='mail_content' class="form-control" id="mail_content" rows="3" placeholder="Treść wiadomości"></textarea>
+          </div>
+            <input type="submit" class="btn btn-block btn-secondary" style="margin-top:20px;" value="Wygeneruj wiadomości">
+        </form>
+
+        {% if data_ready %}
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-block font-weight-light" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Wygenerowane wiadomości:
+                    <h6 class="h6 font-weight-light text-muted">Kliknij aby rozwinąć</h6>
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                {% for message in messages %}
+                    <div class="card" style="margin:5px">
+                        <div class="card-header">
+                                Do: {{message.recipient}}
+                        </div>
+                        <div class="card-body">
+                          <h6 class="card-subtitle mb-2 text-muted"><b>Tytuł:</b> {{message.title}}</h6>
+                          <p class="card-text">{{message.content}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
+        </div>
+        {%endif%}
+        {% if data_ready %}
+        <div class="container-fluid" style="max-width:50%; display:table; margin-top:20px"></div>
+            <form action="#" method="post">
+                {% csrf_token %}
+            <input hidden="true" name="messages" value="{{messages}}">
+            <input type="submit" class="btn btn-block btn-info" value="Wyślij wiadomości" name="sendmail">
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</body>
+</html>
